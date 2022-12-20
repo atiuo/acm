@@ -2,12 +2,20 @@
 #include <unordered_set>
 using namespace std;
 
-void lengthOfLongestSubstring(string s) {
+void getLongestSubstring(string s) {
     // 哈希集合，记录每个字符是否出现过
     unordered_set<char> occ;
+
+    // 记录 string 长度
     int n = s.size();
+
     // 右指针，初始值为 -1，相当于我们在字符串的左边界的左侧，还没有开始移动
-    int rk = -1, ans = 0;
+    int rk = -1;
+
+    // 最重要返回的：子串长度数值，子串内容
+    int ans = 0;
+    string res = NULL;
+    
     // 枚举左指针的位置，初始值隐性地表示为 -1
     for (int i = 0; i < n; ++i) {
         if (i != 0) {
