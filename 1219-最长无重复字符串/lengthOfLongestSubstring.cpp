@@ -2,39 +2,66 @@
 #include <unordered_set>
 using namespace std;
 
-void getLongestSubstring(string s) {
-    // 哈希集合，记录每个字符是否出现过
-    unordered_set<char> occ;
-
+void SlidingWindow(string s) {
     // 记录 string 长度
     int n = s.size();
 
-    // 右指针，初始值为 -1，相当于我们在字符串的左边界的左侧，还没有开始移动
-    int end = -1;
+    // 左右指针
+    int left = 0, right = 0;
+    // 临时记录当前子串的长度，用于与最长子串做对比
+    int length=0;
 
-    // 最重要返回的：子串长度数值，子串内容
+    // 最终要返回的：子串长度数值
     int ans = 0;
-    string res = NULL;
+    // 目标子串的起止点
+    int finalStart=0, finalEnd=0;
     
-    // 枚举左指针的位置，初始值隐性地表示为 -1
-    for (int i = 0; i < n; ++i) {
-        if (i != 0) {
-            // 左指针向右移动一格，移除一个字符
-            occ.erase(s[i - 1]);
+    // 只要 右指针数值小于数组长度，就继续
+    while (right < n) {
+        // 获取右指针指向的字符 rightestChar
+        char rightestChar = s[right];
+        // 遍历当前窗口中的元素，检查是否存在与 rightestChar 相同的元素
+        for (int index = left; index < right; index++)
+        {
+            char tmpChar = s[index];
+            // 如果存在重复元素
+            if (rightestChar == tmpChar){
+                // 就移动左指针到相同元素 index 之后的位置
+                left = index + 1;
+                // 并记录当前字符串的长度
+                length = right - left;
+                // 终止当前的 for 循环
+                break;
+            }
         }
-        while (end + 1 < n && !occ.count(s[end + 1])) {
-            // 不断地移动右指针
-            occ.insert(s[end + 1]);
-            ++rk;
+    
+        // 不断地移动右指针
+        right++;
+        length++;
+
+        if (length>ans){
+            // 说明当前的子串是最大的，要更新 ans
+            ans = length;
+            // 记录其起止点
+            finalStart = left;
+            finalEnd = right;
         }
-        // 第 i 到 rk 个字符是一个极长的无重复字符子串
-        ans = fmax(ans, rk - i + 1);
     }
-    cout << ans << endl;
+
+    string res;
+    for (int flag=finalStart; flag<finalEnd; flag++)
+        res.append(1, s[flag]);
+    
+    cout << "input string:"<<s<<endl;
+    cout <<"finalStart:"<<finalStart<<endl;
+    cout <<"finalEnd:"<<finalEnd<<endl;
+    cout << "longest non-repest sub string:"<<res<<endl;
+    cout << "length:"<<ans << endl;
     // return ans;
 }
 
 int main(){
-    string a = "abcccdaf";
-    lengthOfLongestSubstring(a);
+    // string a = "abcdafggaccd";
+    string a = "";
+    SlidingWindow(a);
 }
