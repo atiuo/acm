@@ -1,5 +1,8 @@
 #include <iostream>
-int lengthOfLongestSubstring(string s) {
+#include <unordered_set>
+using namespace std;
+
+void lengthOfLongestSubstring(string s) {
     // 哈希集合，记录每个字符是否出现过
     unordered_set<char> occ;
     int n = s.size();
@@ -17,11 +20,13 @@ int lengthOfLongestSubstring(string s) {
             ++rk;
         }
         // 第 i 到 rk 个字符是一个极长的无重复字符子串
-        ans = max(ans, rk - i + 1);
+        ans = fmax(ans, rk - i + 1);
     }
-    return ans;
+    cout << ans << endl;
+    // return ans;
 }
 
 int main(){
-    lengthOfLongestSubstring
+    string a = "abcccdaf";
+    lengthOfLongestSubstring(a);
 }
